@@ -233,55 +233,53 @@
         </div>
 
     <script>
-        function orderItem(itemName) {
-            // Create a more personal message
-            const messages = {
-                'PG Tips': "Dad, I'm running low on PG Tips! 🫖 Could you send some more? Thanks! ❤️"
-            };
-            
-            const message = messages[itemName] || `Dad, I need more ${itemName}!`;
-            
-            // Show confirmation
-            if (confirm(`Send this message to Dad?\n\n"${message}"`)) {
-                // Send to Zapier webhook
-                sendToZapier(itemName, message);
-            }
+                
+function orderItem(itemName) {
+    // Create a more personal message
+    const messages = {
+        'PG Tips': "Dad, I'm running low on PG Tips! 🫖 Could you send some more? Thanks! ❤️"
+    };
+    
+    const message = messages[itemName] || `Dad, I need more ${itemName}!`;
+    
+    // Send directly to Zapier without confirmation
+    sendToZapier(itemName, message);
+}
+
+async function sendToZapier(itemName, message) {
+    try {
+        console.log('Attempting to send to Zapier...', { itemName, message });
+        const webhookUrl = 'https://hooks.zapier.com/hooks/catch/7325856/2jnis0n/';
+        
+        const payload = {
+            item: itemName,
+            message: message,
+            timestamp: new Date().toISOString(),
+            from: 'Time for Tea App'
+        };
+        
+        console.log('Payload:', payload);
+        
+        const response = await fetch(webhookUrl, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        });
+
+        console.log('Response status:', response.status);
+        console.log('Response ok:', response.ok);
+
+        if (response.ok) {
+            alert("Your tea order is on its way! 🫖✨");
+        } else {
+            const errorText = await response.text();
+            console.error('Response error:', errorText);
+            throw new Error(`HTTP ${response.status}: ${errorText}`);
         }
-
-        async function sendToZapier(itemName, message) {
-            try {
-                console.log('Attempting to send to Zapier...', { itemName, message });
-                const webhookUrl = 'https://hooks.zapier.com/hooks/catch/7325856/2jnis0n/';
-                
-                const payload = {
-                    item: itemName,
-                    message: message,
-                    timestamp: new Date().toISOString(),
-                    from: 'Time for Tea App'
-                };
-                
-                console.log('Payload:', payload);
-                
-                const response = await fetch(webhookUrl, {
-                    method: 'POST',
-                    body: JSON.stringify(payload)
-                });
-
-                console.log('Response status:', response.status);
-                console.log('Response ok:', response.ok);
-
-                if (response.ok) {
-                    alert("Message sent to Dad! 📱 He'll get your tea order soon!");
-                } else {
-                    const errorText = await response.text();
-                    console.error('Response error:', errorText);
-                    throw new Error(`HTTP ${response.status}: ${errorText}`);
-                }
-            } catch (error) {
-                console.error('Error sending to Zapier:', error);
-                alert(`Oops! Couldn't send the message: ${error.message}`);
-            }
-        }
+    } catch (error) {
+        console.error('Error sending to Zapier:', error);
+        alert(`Oops! Couldn't send the message: ${error.message}`);
+    }
+}
 
         // Add to home screen prompt
         let deferredPrompt;
