@@ -250,7 +250,7 @@
                 const success = await sendOrderEmail(item);
                 
                 if (success) {
-                    showMessage(`✅ Your order for ${item} has been sent successfully!`, 'success');
+                    showMessage(`✅ More ${item} is on the way!`, 'success');
                 } else {
                     showMessage(`❌ Failed to send order for ${item}. Please try again.`, 'error');
                 }
