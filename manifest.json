@@ -2,7 +2,7 @@
   "name": "Time for Tea",
   "short_name": "Tea Time",
   "description": "Simple tea ordering app for Dad",
-  "start_url": "/",
+  "start_url": "/time-for-tea/",
   "display": "standalone",
   "background_color": "#2d1b14",
   "theme_color": "#2d1b14",
