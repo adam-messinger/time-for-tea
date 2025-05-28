@@ -1,0 +1,48 @@
+{
+  "name": "Time for Tea",
+  "short_name": "Tea Time",
+  "description": "Simple tea ordering app for Dad",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2d1b14",
+  "theme_color": "#2d1b14",
+  "orientation": "portrait",
+  "categories": ["food", "lifestyle"],
+  "icons": [
+    {
+      "src": "icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Order PG Tips",
+      "short_name": "PG Tips",
+      "description": "Quick order for PG Tips",
+      "url": "/?order=pg-tips",
+      "icons": [{ "src": "icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Order Splenda",
+      "short_name": "Splenda",
+      "description": "Quick order for Splenda",
+      "url": "/?order=splenda",
+      "icons": [{ "src": "icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Order Half-and-Half",
+      "short_name": "Half & Half",
+      "description": "Quick order for Half-and-Half",
+      "url": "/?order=half-and-half",
+      "icons": [{ "src": "icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}
