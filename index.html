@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Hello World">
-    <title>Hello World iPhone App</title>
+    <meta name="apple-mobile-web-app-title" content="Time for Tea">
+    <title>Time for Tea</title>
     <style>
         * {
             margin: 0;
@@ -16,62 +16,128 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            overflow: hidden;
+            background: linear-gradient(135deg, #3c2415 0%, #1a1a1a 50%, #2d1810 100%);
+            min-height: 100vh;
+            color: #f5e6d3;
+            overflow-x: hidden;
+            padding: 1rem;
         }
 
-        .container {
+        .header {
             text-align: center;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem 1rem;
+            background: rgba(92, 51, 23, 0.2);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            max-width: 350px;
-            width: 90%;
+            border: 1px solid rgba(245, 230, 211, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .tea-emoji {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: steam 3s ease-in-out infinite;
         }
 
         h1 {
             font-size: 2.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             font-weight: 300;
-            animation: fadeInUp 1s ease-out;
+            color: #d4a574;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        p {
+        .subtitle {
             font-size: 1.1rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
+            opacity: 0.8;
+            color: #c8a882;
+        }
+
+        .section {
+            background: rgba(92, 51, 23, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(245, 230, 211, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
             animation: fadeInUp 1s ease-out 0.3s both;
         }
 
-        .button {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            animation: fadeInUp 1s ease-out 0.6s both;
+        .section-header {
+            background: rgba(92, 51, 23, 0.3);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(245, 230, 211, 0.1);
         }
 
-        .button:hover {
-            background: rgba(255, 255, 255, 0.3);
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #d4a574;
+            margin: 0;
+        }
+
+        .section-content {
+            padding: 1.5rem;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: rgba(245, 230, 211, 0.05);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(245, 230, 211, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .item:hover {
+            background: rgba(245, 230, 211, 0.1);
             transform: translateY(-2px);
         }
 
-        .emoji {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            animation: bounce 2s infinite;
+        .item-info {
+            flex-grow: 1;
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #f5e6d3;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-description {
+            font-size: 0.9rem;
+            color: #c8a882;
+            opacity: 0.8;
+        }
+
+        .order-button {
+            background: linear-gradient(135deg, #8b4513 0%, #5c3317 100%);
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            color: #f5e6d3;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .order-button:hover {
+            background: linear-gradient(135deg, #a0522d 0%, #6b3d1f 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .order-button:active {
+            transform: translateY(0);
         }
 
         @keyframes fadeInUp {
@@ -85,27 +151,45 @@
             }
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
+        @keyframes steam {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
             }
-            40% {
-                transform: translateY(-10px);
+            25% {
+                transform: translateY(-5px) rotate(1deg);
             }
-            60% {
-                transform: translateY(-5px);
+            50% {
+                transform: translateY(-8px) rotate(-1deg);
+            }
+            75% {
+                transform: translateY(-3px) rotate(0.5deg);
             }
         }
 
         /* iPhone-specific optimizations */
         @media screen and (max-width: 414px) {
-            .container {
-                padding: 1.5rem;
-                margin: 1rem;
+            .header {
+                padding: 1.5rem 1rem;
+                margin-bottom: 1.5rem;
             }
             
             h1 {
                 font-size: 2rem;
+            }
+
+            .section-content {
+                padding: 1rem;
+            }
+
+            .item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .order-button {
+                align-self: stretch;
+                text-align: center;
             }
         }
 
@@ -122,16 +206,78 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="emoji">👋</div>
-        <h1>Hello World!</h1>
-        <p>Welcome to your first iPhone web app</p>
-        <button class="button" onclick="showMessage()">Tap Me!</button>
+    <div class="header">
+        <div class="tea-emoji">🫖</div>
+        <h1>Time for Tea</h1>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Dad I need more ...</h2>
+        </div>
+        <div class="section-content">
+            <div class="item">
+                <div class="item-info">
+                    <div class="item-name">PG Tips</div>
+                    <div class="item-description">The perfect brew for late-night study sessions</div>
+                </div>
+                <button class="order-button" onclick="orderItem('PG Tips')">Order Now</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        function showMessage() {
-            alert('Hello from your iPhone web app! 🎉');
+        function orderItem(itemName) {
+            // Create a more personal message
+            const messages = {
+                'PG Tips': "Dad, I'm running low on PG Tips! 🫖 Could you send some more? Thanks! ❤️"
+            };
+            
+            const message = messages[itemName] || `Dad, I need more ${itemName}!`;
+            
+            // Show confirmation
+            if (confirm(`Send this message to Dad?\n\n"${message}"`)) {
+                // Send to Zapier webhook
+                sendToZapier(itemName, message);
+            }
+        }
+
+        async function sendToZapier(itemName, message) {
+            try {
+                console.log('Attempting to send to Zapier...', { itemName, message });
+                const webhookUrl = 'https://hooks.zapier.com/hooks/catch/7325856/2jnis0n/';
+                
+                const payload = {
+                    item: itemName,
+                    message: message,
+                    timestamp: new Date().toISOString(),
+                    from: 'Time for Tea App'
+                };
+                
+                console.log('Payload:', payload);
+                
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+
+                if (response.ok) {
+                    alert("Message sent to Dad! 📱 He'll get your tea order soon!");
+                } else {
+                    const errorText = await response.text();
+                    console.error('Response error:', errorText);
+                    throw new Error(`HTTP ${response.status}: ${errorText}`);
+                }
+            } catch (error) {
+                console.error('Error sending to Zapier:', error);
+                alert(`Oops! Couldn't send the message: ${error.message}`);
+            }
         }
 
         // Add to home screen prompt
@@ -144,7 +290,9 @@
 
         // Prevent bounce scrolling
         document.addEventListener('touchmove', function(e) {
-            e.preventDefault();
+            if (e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+            }
         }, { passive: false });
 
         // Handle orientation changes
