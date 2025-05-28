@@ -235,15 +235,8 @@
     <script>
                 
 function orderItem(itemName) {
-    // Create a more personal message
-    const messages = {
-        'PG Tips': "Dad, I'm running low on PG Tips! 🫖 Could you send some more? Thanks! ❤️"
-    };
-    
-    const message = messages[itemName] || `Dad, I need more ${itemName}!`;
-    
     // Send directly to Zapier without confirmation
-    sendToZapier(itemName, message);
+    sendToZapier(itemName, ");
 }
 
 async function sendToZapier(itemName, message) {
@@ -269,7 +262,7 @@ async function sendToZapier(itemName, message) {
         console.log('Response ok:', response.ok);
 
         if (response.ok) {
-            alert("Your tea order is on its way! 🫖✨");
+            alert("Your $itemName order is on its way! 🫖✨");
         } else {
             const errorText = await response.text();
             console.error('Response error:', errorText);
