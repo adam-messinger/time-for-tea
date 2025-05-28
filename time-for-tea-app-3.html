@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time for Tea</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #2d1b14 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            background: rgba(245, 235, 220, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            transform: translateY(-10px);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(-10px);
+            }
+        }
+
+        .tea-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: steam 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes steam {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-5px); }
+        }
+
+        h1 {
+            color: #3c2414;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+
+        .subtitle {
+            color: #5a453a;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .button-grid {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .order-btn {
+            background: linear-gradient(45deg, #8b4513, #654321);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 69, 19, 0.4);
+        }
+
+        .order-btn:active {
+            transform: translateY(0px);
+        }
+
+        .order-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .order-btn:hover::before {
+            left: 100%;
+        }
+
+        .pg-tips { background: linear-gradient(45deg, #8b4513, #654321); }
+        .splenda { background: linear-gradient(45deg, #5d4037, #3e2723); }
+        .half-and-half { background: linear-gradient(45deg, #6f4e37, #4a2c2a); }
+
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message.success {
+            background: #c6f6d5;
+            color: #22543d;
+            border: 1px solid #9ae6b4;
+        }
+
+        .message.error {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 1px solid #feb2b2;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #8b4513;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tea-icon">🫖</div>
+        <h1>Time for Tea</h1>
+        <p class="subtitle">Dad I need some more</p>
+        
+        <div class="button-grid">
+            <button class="order-btn pg-tips" onclick="placeOrder('PG Tips')">
+                🍃 PG Tips
+            </button>
+            <button class="order-btn splenda" onclick="placeOrder('Splenda')">
+                🧊 Splenda
+            </button>
+            <button class="order-btn half-and-half" onclick="placeOrder('Half-and-Half')">
+                🥛 Half-and-Half
+            </button>
+        </div>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        // Wait for EmailJS to load before initializing
+        let emailjsReady = false;
+        
+        function initializeEmailJS() {
+            try {
+                // Try both possible global objects
+                if (typeof emailjs !== 'undefined') {
+                    emailjs.init('hD4AfRqPoAnKyXeEY');
+                    emailjsReady = true;
+                    console.log('✅ EmailJS initialized successfully (emailjs)');
+                    return true;
+                } else if (typeof window.emailjs !== 'undefined') {
+                    window.emailjs.init('hD4AfRqPoAnKyXeEY');
+                    emailjsReady = true;
+                    console.log('✅ EmailJS initialized successfully (window.emailjs)');
+                    return true;
+                } else {
+                    console.error('❌ EmailJS not available - checking window object:', Object.keys(window).filter(key => key.includes('email')));
+                    return false;
+                }
+            } catch (error) {
+                console.error('❌ EmailJS initialization failed:', error);
+                return false;
+            }
+        }
+
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            messageEl.classList.add('show');
+            
+            setTimeout(() => {
+                messageEl.classList.remove('show');
+            }, 5000);
+        }
+
+        function showLoading(item) {
+            const messageEl = document.getElementById('message');
+            messageEl.innerHTML = `<span class="loading"></span>Sending order for ${item}...`;
+            messageEl.className = 'message show';
+        }
+
+        async function placeOrder(item) {
+            console.log('Placing order for:', item);
+            showLoading(item);
+            
+            // Check if EmailJS is ready
+            if (!emailjsReady) {
+                console.log('EmailJS not ready, attempting to initialize...');
+                if (!initializeEmailJS()) {
+                    showMessage(`❌ Email service not available. Please refresh and try again.`, 'error');
+                    return;
+                }
+                // Wait a moment for initialization
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            try {
+                const success = await sendOrderEmail(item);
+                
+                if (success) {
+                    showMessage(`✅ Your order for ${item} has been sent successfully!`, 'success');
+                } else {
+                    showMessage(`❌ Failed to send order for ${item}. Please try again.`, 'error');
+                }
+            } catch (error) {
+                console.error('Error placing order:', error);
+                showMessage(`❌ Error placing order: ${error.message || 'Unknown error'}`, 'error');
+            }
+        }
+
+        async function sendOrderEmail(item) {
+            console.log('Attempting to send email for:', item);
+            
+            try {
+                // Check both possible emailjs objects
+                const emailjsObj = typeof emailjs !== 'undefined' ? emailjs : window.emailjs;
+                
+                if (!emailjsObj || !emailjsReady) {
+                    throw new Error('EmailJS service not ready');
+                }
+
+                const serviceID = 'service_v3apk8f';
+                const templateID = 'template_lmsqo3r';
+                
+                const templateParams = {
+                    item: item,
+                    timestamp: new Date().toLocaleString(),
+                    message: `Dad needs some more ${item}!`
+                };
+
+                console.log('Sending with params:', templateParams);
+
+                const response = await emailjsObj.send(serviceID, templateID, templateParams);
+                console.log('Email sent successfully:', response);
+                return true;
+            } catch (error) {
+                console.error('Failed to send email:', error);
+                console.error('Error details:', error.text || error.message);
+                return false;
+            }
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', function() {
+            console.log('Page loaded, checking EmailJS...');
+            console.log('Available global objects:', Object.keys(window).filter(key => key.toLowerCase().includes('email')));
+            setTimeout(() => {
+                initializeEmailJS();
+            }, 2000); // Give more time for CDN to load
+        });
+
+        // Also try to initialize when the script loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                if (!emailjsReady) {
+                    initializeEmailJS();
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
