@@ -1,10 +1,10 @@
 const CACHE_NAME = 'time-for-tea-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icon-192x192.png',
-  '/icon-512x512.png',
+  '/time-for-tea/',
+  '/time-for-tea/index.html',
+  '/time-for-tea/manifest.json',
+  '/time-for-tea/icon-192x192.png',
+  '/time-for-tea/icon-512x512.png',
   'https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js'
 ];
 
